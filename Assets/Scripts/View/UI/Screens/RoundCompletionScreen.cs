@@ -47,7 +47,7 @@ namespace RPSLS.UI
         private void SetupScreen()
         {
             GameManager gameManager = GameManager.Instance;
-
+            string summary = string.Empty; ;
             _playerScoreLabel.text = $"Score : {gameManager.Score}";
 
             _playerHandIcon.gameObject.SetActive(gameManager.PlayerConfig != null);
@@ -57,16 +57,28 @@ namespace RPSLS.UI
 
             if (gameManager.PlayerConfig != null)
             {
-                _playerHandIcon.sprite = gameManager.PlayerConfig?.UnitIcon;
-                _summaryLabel.text = "Good try! Try Again?";
+                _playerHandIcon.sprite = gameManager.PlayerConfig.UnitIcon;
+                summary = "Nice try! Try Again?";
             }
             else
             {
-                _summaryLabel.text = "You ran out of time!";
+                summary = "You ran out of time!";
             }
-            AudioManager.Instance.PlayLosingSFX();
 
-            _newHighScoreLabel.gameObject.SetActive(false);
+            if (gameManager.Score > gameManager.HighScore)
+            {
+                summary = "You hasve a new HighScore!";
+                _newHighScoreLabel.text = $"New High Score : {gameManager.Score}";
+                AudioManager.Instance.PlayNewHighScoreVFX();
+                gameManager.UpdateHighScore();
+            }
+            else
+            {
+                AudioManager.Instance.PlayLosingSFX();
+            }
+
+            _summaryLabel.text = summary;
+            _newHighScoreLabel.gameObject.SetActive(gameManager.Score > gameManager.HighScore);
         }
         #endregion
     }

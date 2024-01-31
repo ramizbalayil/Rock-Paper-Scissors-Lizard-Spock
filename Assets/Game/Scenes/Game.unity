@@ -500,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playButton: {fileID: 1948668364}
+  _highScoreLabel: {fileID: 1273887020}
 --- !u!1 &189934645
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,8 +957,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 408932871}
-  - component: {fileID: 408932872}
   - component: {fileID: 408932874}
+  - component: {fileID: 408932872}
   - component: {fileID: 408932873}
   - component: {fileID: 408932875}
   m_Layer: 0

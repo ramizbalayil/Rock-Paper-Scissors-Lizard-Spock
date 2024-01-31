@@ -1,3 +1,4 @@
+using RPSLS.Game;
 using System;
 using UltimateClean;
 using UnityEngine;
@@ -11,8 +12,16 @@ namespace RPSLS.UI
         public override string Id => nameof(MenuScreen);
         #endregion
 
+        #region Unity Methods
+        private void Start()
+        {
+            GameManager.Instance.OnHighScoreUpdated += OnHighScoreUpdated;
+        }
+        #endregion
+
         #region Inspector Fields
         [SerializeField] private CleanButton _playButton;
+        [SerializeField] private TMPro.TextMeshProUGUI _highScoreLabel;
         #endregion
 
         #region Public Methods
@@ -20,6 +29,13 @@ namespace RPSLS.UI
         public void OnPlayButtonPressed()
         {
             ScreenManager.Instance.Show(nameof(RoundReadyScreen));
+        }
+        #endregion
+
+        #region Private Methods
+        private void OnHighScoreUpdated(int highScore)
+        {
+            _highScoreLabel.text = $"HighScore : {highScore}";
         }
         #endregion
     }
