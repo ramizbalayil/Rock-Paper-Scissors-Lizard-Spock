@@ -160,7 +160,7 @@ namespace RPSLS.Game
             }
             else
             {
-                _score += 1;
+                _score += result;
                 OnRoundComplete(playerConfig);
                 ResetGame();
             }
