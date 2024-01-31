@@ -15,3 +15,4 @@ MonoBehaviour:
   UnitType: 3
   UnitName: LIZARD
   UnitIcon: {fileID: 21300000, guid: c0e0550db219442d985d96740e5132e6, type: 3}
+  UnitSound: {fileID: 8300000, guid: 31dffba9df2de264b8452806f728ab86, type: 3}

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -19,20 +20,30 @@ namespace RPSLS.UI
         #region Private Variables
         private readonly int READY_HASH = Animator.StringToHash("READY");
         private float _timer = 0f;
+        private string previousTimerLabel = string.Empty;
         #endregion
 
         #region Unity Methods
-
         private void OnEnable()
         {
             _timer = 3f;
             PlayAnimators(READY_HASH);
+
+            AudioManager.Instance.PlayCountDownTimerSFX();
+        }
+
+        private IEnumerator StartTimerSFX()
+        {
+            yield return new WaitForSeconds(1f);
+
         }
 
         private void Update()
         {
             _timer -= Time.deltaTime;
+
             _timerLabel.text = _timer <= 0f ? "GO!" : Mathf.CeilToInt(_timer).ToString();
+
             if (_timer <= -1f)
             {
                 ScreenManager.Instance.Show(nameof(GameScreen));
@@ -48,6 +59,10 @@ namespace RPSLS.UI
                 animator.Play(hash);
             }
         }
+        #endregion
+
+        #region Public Methods
+
         #endregion
     }
 }

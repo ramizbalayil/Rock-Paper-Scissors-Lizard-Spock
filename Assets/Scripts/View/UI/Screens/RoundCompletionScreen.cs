@@ -49,9 +49,22 @@ namespace RPSLS.UI
             GameManager gameManager = GameManager.Instance;
 
             _playerScoreLabel.text = $"Score : {gameManager.Score}";
-            _playerHandIcon.sprite = gameManager.PlayerConfig.UnitIcon;
+
+            _playerHandIcon.gameObject.SetActive(gameManager.PlayerConfig != null);
+
             _aIHandIcon.sprite = gameManager.AiConfig.UnitIcon;
-            _summaryLabel.text = "Good try! Try Again?";
+            AudioManager.Instance.PlayUnitSFX(gameManager.AiConfig.UnitSound);
+
+            if (gameManager.PlayerConfig != null)
+            {
+                _playerHandIcon.sprite = gameManager.PlayerConfig?.UnitIcon;
+                _summaryLabel.text = "Good try! Try Again?";
+            }
+            else
+            {
+                _summaryLabel.text = "You ran out of time!";
+            }
+            AudioManager.Instance.PlayLosingSFX();
 
             _newHighScoreLabel.gameObject.SetActive(false);
         }

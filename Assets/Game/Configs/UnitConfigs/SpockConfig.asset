@@ -15,3 +15,4 @@ MonoBehaviour:
   UnitType: 4
   UnitName: SPOCK
   UnitIcon: {fileID: 21300000, guid: 1c2180e0b7d6043e78ad091e2bfb03c5, type: 3}
+  UnitSound: {fileID: 8300000, guid: e699975c76efd4442b68655121416ca1, type: 3}
