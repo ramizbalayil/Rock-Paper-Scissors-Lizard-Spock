@@ -2,6 +2,7 @@
 // This code can only be used under the standard Unity Asset Store End User License Agreement.
 // A Copy of the Asset Store EULA is available at http://unity3d.com/company/legal/as_terms.
 
+using RPSLS.UI;
 using UnityEngine;
 
 namespace UltimateClean
@@ -15,18 +16,14 @@ namespace UltimateClean
         public AudioClip pressedSound;
         public AudioClip rolloverSound;
 
-        public AudioSource audioSource;
-
         public void PlayPressedSound()
         {
-            audioSource.clip = pressedSound;
-            audioSource.Play();
+            AudioManager.Instance.PlayUiSFX(pressedSound);
         }
 
         public void PlayRolloverSound()
         {
-            audioSource.clip = rolloverSound;
-            audioSource.Play();
+            AudioManager.Instance.PlayUiSFX(rolloverSound);
         }
     }
 }

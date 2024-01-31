@@ -18,4 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 582483901882bcc438605a1561c33e14, type: 2}
   - {fileID: 11400000, guid: 657c242deef29ad4cb7f8bc655e7804d, type: 2}
   - {fileID: 11400000, guid: 22e750bb1223e974399e6d92f5c243d0, type: 2}
-  PlayerTurnTimer: 10
+  PlayerTurnTimer: 3

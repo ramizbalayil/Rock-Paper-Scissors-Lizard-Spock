@@ -9,5 +9,6 @@ namespace RPSLS.Config
         public UnitType UnitType;
         public string UnitName;
         public Sprite UnitIcon;
+        public AudioClip UnitSound;
     }
 }

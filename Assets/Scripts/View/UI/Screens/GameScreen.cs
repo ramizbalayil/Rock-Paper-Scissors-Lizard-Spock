@@ -40,6 +40,7 @@ namespace RPSLS.UI
         {
             GameManager.OnGameOver += OnGameOver;
             GameManager.OnAIHandSet += OnGameReset;
+            GameManager.OnRoundComplete += OnRoundComplete;
             GameManager.StartGame();
         }
 
@@ -64,7 +65,14 @@ namespace RPSLS.UI
 
         private void OnGameReset(UnitConfig aiConfig)
         {
+            AudioManager.Instance.PlayTimerSFX();
             _aiUnit.SetupUnit(aiConfig);
+        }
+
+        private void OnRoundComplete(UnitConfig config)
+        {
+            AudioManager.Instance.PlayRoundCompleteSFX();
+            AudioManager.Instance.PlayUnitSFX(config.UnitSound);
         }
         #endregion
     }

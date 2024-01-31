@@ -15,3 +15,4 @@ MonoBehaviour:
   UnitType: 1
   UnitName: PAPER
   UnitIcon: {fileID: 21300000, guid: 1fb309debf9824b4284a9baad1b52b92, type: 3}
+  UnitSound: {fileID: 8300000, guid: 0679ebc8780bf3349acc0a17ae8d04f0, type: 3}

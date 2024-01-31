@@ -48,6 +48,7 @@ namespace RPSLS.Game
         public Action OnGameOver;
         public Action<UnitConfig> OnAIHandSet;
         public Action<UnitConfig> OnUnitSelected;
+        public Action<UnitConfig> OnRoundComplete;
         #endregion
 
         #region Unity Methods
@@ -137,6 +138,7 @@ namespace RPSLS.Game
             else
             {
                 _score += 1;
+                OnRoundComplete(playerConfig);
                 ResetGame();
             }
         }
