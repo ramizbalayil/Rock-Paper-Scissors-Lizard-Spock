@@ -10,18 +10,12 @@ namespace UltimateClean
     /// This component goes together with a button object and contains
     /// the audio clips to play when the player rolls over and presses it.
     /// </summary>
-    [RequireComponent(typeof(AudioSource))]
     public class ButtonSounds : MonoBehaviour
     {
         public AudioClip pressedSound;
         public AudioClip rolloverSound;
 
-        private AudioSource audioSource;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
+        public AudioSource audioSource;
 
         public void PlayPressedSound()
         {
