@@ -35,6 +35,14 @@ namespace RPSLS.UI
             HideAllScreens();
             Show(_startScreen.Id);
         }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                HandleBackButtonPressed();
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -60,6 +68,30 @@ namespace RPSLS.UI
             foreach (Screen screen in _screens)
             {
                 screen.gameObject.SetActive(false);
+            }
+        }
+
+        private void HandleBackButtonPressed()
+        {
+            AudioManager.Instance.StopAllSounds();
+
+            switch (_currentScreenId)
+            {
+                case (nameof(MenuScreen)):
+                    Application.Quit();
+                    break;
+
+                case (nameof(RoundReadyScreen)):
+                    Show(nameof(MenuScreen));
+                    break;
+
+                case (nameof(GameScreen)):
+                    Show(nameof(MenuScreen));
+                    break;
+
+                case (nameof(RoundCompletionScreen)):
+                    Show(nameof(MenuScreen));
+                    break;
             }
         }
         #endregion
