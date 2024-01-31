@@ -33,6 +33,7 @@ namespace RPSLS.Game
         private float _timer;
         private bool _gameRunning;
         private UnitConfig _aiConfig;
+        private UnitConfig _previousAiConfig;
         private UnitConfig _playerConfig;
         private int _highScore = 0;
 
@@ -136,7 +137,15 @@ namespace RPSLS.Game
 
         private void SetAIHand()
         {
-            _aiConfig = _unitData.Data[UnityEngine.Random.Range(0, _unitData.Data.Count)];
+            int randIndex = UnityEngine.Random.Range(0, _unitData.Data.Count);
+
+            if (_previousAiConfig != null && _unitData.Data[randIndex].UnitType == _previousAiConfig.UnitType)
+            {
+                randIndex = (randIndex + 1) % _unitData.Data.Count;
+            }
+
+            _aiConfig = _unitData.Data[randIndex];
+            _previousAiConfig = _aiConfig;
         }
 
         private void CompareHands(UnitConfig playerConfig, UnitConfig aiConfig)
