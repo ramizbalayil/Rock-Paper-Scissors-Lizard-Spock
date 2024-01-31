@@ -17,6 +17,11 @@ namespace RPSLS.UI
         {
             GameManager.Instance.OnHighScoreUpdated += OnHighScoreUpdated;
         }
+
+        private void Destroy()
+        {
+            GameManager.Instance.OnHighScoreUpdated -= OnHighScoreUpdated;
+        }
         #endregion
 
         #region Inspector Fields

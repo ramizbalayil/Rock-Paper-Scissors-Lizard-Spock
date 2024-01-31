@@ -28,6 +28,7 @@ namespace RPSLS.UI
         [SerializeField] private Unit _aiUnit;
         [SerializeField] private SlicedFilledImage _timerProgress;
         [SerializeField] private TMPro.TextMeshProUGUI _timerLabel;
+        [SerializeField] private TMPro.TextMeshProUGUI _scoreLabel;
 
         #endregion
 
@@ -48,12 +49,14 @@ namespace RPSLS.UI
         {
             _timerProgress.fillAmount = GameManager.GetTimerProgress();
             _timerLabel.text = $"Timer : {Mathf.CeilToInt(GameManager.GetTimer())}s";
+            _scoreLabel.text = $"Score : {GameManager.Score}";
         }
 
         private void OnDisable()
         {
             GameManager.OnGameOver -= OnGameOver;
             GameManager.OnAIHandSet -= OnGameReset;
+            GameManager.OnRoundComplete -= OnRoundComplete;
         }
         #endregion
 

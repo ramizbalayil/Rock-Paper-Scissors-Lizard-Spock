@@ -9,6 +9,22 @@ namespace RPSLS.UI
     {
         #region Properties
         public override string Id => nameof(RoundCompletionScreen);
+
+        public GameManager GameManager
+        {
+            get
+            {
+                if (gameManager == null)
+                {
+                    gameManager = GameManager.Instance;
+                }
+                return gameManager;
+            }
+        }
+        #endregion
+
+        #region Private Variables
+        private GameManager gameManager;
         #endregion
 
         #region Inspector Fields
@@ -46,18 +62,19 @@ namespace RPSLS.UI
 
         private void SetupScreen()
         {
-            GameManager gameManager = GameManager.Instance;
-            string summary = string.Empty; ;
-            _playerScoreLabel.text = $"Score : {gameManager.Score}";
+            string summary;
+            _playerScoreLabel.text = $"Score : {GameManager.Score}";
 
-            _playerHandIcon.gameObject.SetActive(gameManager.PlayerConfig != null);
+            _playerHandIcon.gameObject.SetActive(GameManager.PlayerConfig != null);
 
-            _aIHandIcon.sprite = gameManager.AiConfig.UnitIcon;
-            AudioManager.Instance.PlayUnitSFX(gameManager.AiConfig.UnitSound);
+            _aIHandIcon.sprite = GameManager.AiConfig.UnitIcon;
+            AudioManager.Instance.PlayUnitSFX(GameManager.AiConfig.UnitSound);
 
-            if (gameManager.PlayerConfig != null)
+            _newHighScoreLabel.gameObject.SetActive(GameManager.Score > GameManager.HighScore);
+
+            if (GameManager.PlayerConfig != null)
             {
-                _playerHandIcon.sprite = gameManager.PlayerConfig.UnitIcon;
+                _playerHandIcon.sprite = GameManager.PlayerConfig.UnitIcon;
                 summary = "Nice try! Try Again?";
             }
             else
@@ -65,12 +82,12 @@ namespace RPSLS.UI
                 summary = "You ran out of time!";
             }
 
-            if (gameManager.Score > gameManager.HighScore)
+            if (GameManager.Score > GameManager.HighScore)
             {
-                summary = "You hasve a new HighScore!";
-                _newHighScoreLabel.text = $"New High Score : {gameManager.Score}";
+                summary = "You have a new HighScore!";
+                _newHighScoreLabel.text = $"New High Score : {GameManager.Score}";
                 AudioManager.Instance.PlayNewHighScoreVFX();
-                gameManager.UpdateHighScore();
+                GameManager.UpdateHighScore();
             }
             else
             {
@@ -78,7 +95,6 @@ namespace RPSLS.UI
             }
 
             _summaryLabel.text = summary;
-            _newHighScoreLabel.gameObject.SetActive(gameManager.Score > gameManager.HighScore);
         }
         #endregion
     }
