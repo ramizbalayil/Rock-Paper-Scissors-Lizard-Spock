@@ -9,6 +9,22 @@ namespace RPSLS.UI
     {
         #region Properties
         public override string Id => nameof(RoundCompletionScreen);
+
+        public GameManager GameManager
+        {
+            get
+            {
+                if (gameManager == null)
+                {
+                    gameManager = GameManager.Instance;
+                }
+                return gameManager;
+            }
+        }
+        #endregion
+
+        #region Private Variables
+        private GameManager gameManager;
         #endregion
 
         #region Inspector Fields
@@ -46,27 +62,39 @@ namespace RPSLS.UI
 
         private void SetupScreen()
         {
-            GameManager gameManager = GameManager.Instance;
+            string summary;
+            _playerScoreLabel.text = $"Score : {GameManager.Score}";
 
-            _playerScoreLabel.text = $"Score : {gameManager.Score}";
+            _playerHandIcon.gameObject.SetActive(GameManager.PlayerConfig != null);
 
-            _playerHandIcon.gameObject.SetActive(gameManager.PlayerConfig != null);
+            _aIHandIcon.sprite = GameManager.AiConfig.UnitIcon;
+            AudioManager.Instance.PlayUnitSFX(GameManager.AiConfig.UnitSound);
 
-            _aIHandIcon.sprite = gameManager.AiConfig.UnitIcon;
-            AudioManager.Instance.PlayUnitSFX(gameManager.AiConfig.UnitSound);
+            _newHighScoreLabel.gameObject.SetActive(GameManager.Score > GameManager.HighScore);
 
-            if (gameManager.PlayerConfig != null)
+            if (GameManager.PlayerConfig != null)
             {
-                _playerHandIcon.sprite = gameManager.PlayerConfig?.UnitIcon;
-                _summaryLabel.text = "Good try! Try Again?";
+                _playerHandIcon.sprite = GameManager.PlayerConfig.UnitIcon;
+                summary = "Nice try! Try Again?";
             }
             else
             {
-                _summaryLabel.text = "You ran out of time!";
+                summary = "You ran out of time!";
             }
-            AudioManager.Instance.PlayLosingSFX();
 
-            _newHighScoreLabel.gameObject.SetActive(false);
+            if (GameManager.Score > GameManager.HighScore)
+            {
+                summary = "You have a new HighScore!";
+                _newHighScoreLabel.text = $"New High Score : {GameManager.Score}";
+                AudioManager.Instance.PlayNewHighScoreVFX();
+                GameManager.UpdateHighScore();
+            }
+            else
+            {
+                AudioManager.Instance.PlayLosingSFX();
+            }
+
+            _summaryLabel.text = summary;
         }
         #endregion
     }

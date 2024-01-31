@@ -10,6 +10,12 @@ namespace RPSLS.Game
     {
         public static GameManager Instance { get; private set; }
 
+        public static bool IsInitialized => Instance != null;
+
+        #region Constant Variables
+        public const string HighScoreKey = "high_score";
+        #endregion
+
         #region Inspector Fields
         [SerializeField] private UnitData _unitData;
         #endregion
@@ -18,6 +24,8 @@ namespace RPSLS.Game
         public UnitConfig AiConfig => _aiConfig;
         public UnitConfig PlayerConfig => _playerConfig;
         public int Score => _score;
+        public int HighScore => _highScore;
+
         #endregion
 
         #region Private Variables
@@ -26,6 +34,7 @@ namespace RPSLS.Game
         private bool _gameRunning;
         private UnitConfig _aiConfig;
         private UnitConfig _playerConfig;
+        private int _highScore = 0;
 
         private List<List<int>> _outcomeMatrix = new List<List<int>> {
             new List<int> { 0, -1, 1, 1, -1 },  // ROCK
@@ -34,14 +43,6 @@ namespace RPSLS.Game
             new List<int> { -1, 1, -1, 0, 1 },  // LIZARD
             new List<int> { 1, -1, 1, -1, 0 },  // SPOCK
         };
-
-        private int[][] _outcomeMatrix1 = new int[][] {
-            new int[] { 0, -1, 1, 1, -1 },    // ROCK
-            new int[] { 1, 0, -1, -1, 1 },    // PAPER 
-            new int[] { -1, 1, 0, 1, -1 },    // SCISSORS
-            new int[] { -1, 1, -1, 0, 1 },    // LIZARD
-            new int[] { 1, -1, 1, -1, 0 },    // SPOCK
-        };
         #endregion
 
         #region Public Variables
@@ -49,6 +50,7 @@ namespace RPSLS.Game
         public Action<UnitConfig> OnAIHandSet;
         public Action<UnitConfig> OnUnitSelected;
         public Action<UnitConfig> OnRoundComplete;
+        public Action<int> OnHighScoreUpdated;
         #endregion
 
         #region Unity Methods
@@ -60,6 +62,11 @@ namespace RPSLS.Game
                 return;
             }
             Instance = this;
+        }
+
+        private void Start()
+        {
+            LoadHighScore();
         }
 
         private void Update()
@@ -112,6 +119,13 @@ namespace RPSLS.Game
         {
             return _timer;
         }
+
+        public void UpdateHighScore()
+        {
+            PlayerPrefs.SetInt(HighScoreKey, _score);
+            _highScore = _score;
+            OnHighScoreUpdated?.Invoke(_highScore);
+        }
         #endregion
 
         #region Private Methods
@@ -141,6 +155,12 @@ namespace RPSLS.Game
                 OnRoundComplete(playerConfig);
                 ResetGame();
             }
+        }
+
+        private void LoadHighScore()
+        {
+            _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+            OnHighScoreUpdated?.Invoke(_highScore);
         }
         #endregion
     }
