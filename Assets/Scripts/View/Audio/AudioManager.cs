@@ -75,6 +75,13 @@ namespace RPSLS.UI
         {
             PlayBgSFX(_gameTimer, true);
         }
+
+        public void StopAllSounds()
+        {
+            _bgAudioSource.Stop();
+            _unitAudioSource.Stop();
+            _uIAudioSource.Stop();
+        }
         #endregion
     }
 }
