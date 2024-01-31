@@ -1,3 +1,4 @@
+using RPSLS.Config;
 using RPSLS.Game;
 using System;
 using System.Collections.Generic;
@@ -37,10 +38,9 @@ namespace RPSLS.UI
         #region Unity Methods
         private void OnEnable()
         {
+            GameManager.OnGameOver += OnGameOver;
+            GameManager.OnAIHandSet += OnGameReset;
             GameManager.StartGame();
-            GameManager.OnTimerComplete += OnTimerComplete;
-
-            _aiUnit.SetupUnit(GameManager.GetAIHand());
         }
 
         private void Update()
@@ -51,14 +51,20 @@ namespace RPSLS.UI
 
         private void OnDisable()
         {
-            GameManager.OnTimerComplete -= OnTimerComplete;
+            GameManager.OnGameOver -= OnGameOver;
+            GameManager.OnAIHandSet -= OnGameReset;
         }
         #endregion
 
         #region Private Methods
-        private void OnTimerComplete()
+        private void OnGameOver()
         {
             ScreenManager.Instance.Show(nameof(RoundCompletionScreen));
+        }
+
+        private void OnGameReset(UnitConfig aiConfig)
+        {
+            _aiUnit.SetupUnit(aiConfig);
         }
         #endregion
     }
